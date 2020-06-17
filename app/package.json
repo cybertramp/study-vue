@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "koa": "^2.12.1",
+    "koa-static": "^5.0.0",
+    "semantic-ui-vue": "^0.11.0"
+  },
+  "name": "app",
+  "version": "1.0.0",
+  "main": "./server.js",
+  "repository": "https://github.com/cybertramp/study-vue.git",
+  "author": "todd <todd@fadu.io>",
+  "license": "MIT",
+  "script": {
+    "start": "babel-node .index.js"
+  }
+}
