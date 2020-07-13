@@ -11,6 +11,6 @@
   "author": "todd <todd@fadu.io>",
   "license": "MIT",
   "script": {
-    "start": "babel-node .index.js"
+    "start": "node-babel ./index.js"
   }
 }
