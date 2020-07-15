@@ -28,6 +28,24 @@
     </head>
 
     <body>
+        <script>
+
+            const getBreeds = async () => {
+                try {
+                return await axios.get('http://localhost:9000/Fileinfo/GetAllList');
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            const countBreeds = async () => {
+                const breeds = await getBreeds();
+
+                if (breeds.data.message) {
+                console.log(`현재 강아지의 수는 ${Object.entries(breeds.data.message).length}입니다.`);
+                }
+            };
+            console.log(countBreeds());
+        </script>
         <div class="ui fixed inverted menu">
             <div class="ui container">
                 <a href="#" class="header item">
