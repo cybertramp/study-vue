@@ -39,15 +39,11 @@ export default {
 <template>
   <div>
     <!-- menu bar-->
-    <md-menu md-direction="bottom-start">
-      <md-button md-menu-trigger>Home</md-button>
-
-      <md-menu-content>
-        <md-menu-item>Mass Product</md-menu-item>
-        <md-menu-item>CM File History</md-menu-item>
-        <md-menu-item>MP Flows</md-menu-item>
-      </md-menu-content>
-    </md-menu>
+    <md-tabs>
+      <md-tab id="menu_home" md-label="Home"></md-tab>
+      <md-tab id="menu_mpflow" md-label="MP Flow"></md-tab>
+      <md-tab id="menu_cmfilehistory" md-label="CM File History"></md-tab>
+    </md-tabs>
 
     <md-table>
       <md-table-toolbar>
