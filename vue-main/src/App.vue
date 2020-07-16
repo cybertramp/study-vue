@@ -8,14 +8,15 @@
         </b-navbar-item>
       </template>
       <template slot="end">
-        <b-navbar-item href="/">Home</b-navbar-item>
-        <b-navbar-dropdown label="CM Management">
+        <b-navbar-dropdown label="Menu" hoverable boxed>
           <b-navbar-item href="/mpflow">MP Flow</b-navbar-item>
-          <b-navbar-item href="/cm-file-history">File History</b-navbar-item>
-          <b-navbar-item href="/cm-repo">File Repository</b-navbar-item>
+          <b-navbar-item href="/mp-history">MP File History</b-navbar-item>
+          <b-navbar-item href="http://10.11.11.146:3000/fadu/mp_cm_data">File Repository</b-navbar-item>
         </b-navbar-dropdown>
+        <b-navbar-item href="/logout">Logout</b-navbar-item>
       </template>
     </b-navbar>
+    <br />
     <div class="container">
       <router-view />
     </div>
@@ -29,3 +30,5 @@ export default {
   methods: {}
 };
 </script>
+
+
