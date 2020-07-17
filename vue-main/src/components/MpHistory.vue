@@ -39,7 +39,7 @@
       >
         <template slot-scope="props">
           <b-table-column field="mpName" label="Name">
-            <a @click="toggle(props.row)">{{ props.row.mpName }}</a>
+            <a @click="toggle(props.row,props.row.id)">{{ props.row.mpName }}</a>
           </b-table-column>
           <b-table-column field="cmSite" label="Site">{{props.row.cmSite}}</b-table-column>
           <b-table-column field="nandType" label="Type">{{props.row.nandType}}</b-table-column>
@@ -59,22 +59,20 @@
             <!-- Right side -->
             <div class="level-right">
               <p class="level-item">
-                <b-button type="is-fail" @click="switchModify()">{{modifyKeyName}}</b-button>
+                <b-button type="is-fail" @click="switchModify(props2)">{{modifyKeyName}}</b-button>
               </p>
             </div>
           </nav>
+          <!-- fileinfo table -->
           <b-table :data="props.row.fileinfoList">
             <template slot-scope="props2">
               <b-table-column v-if="modifyModeFileinfo" label="Description">
-                <b-input
-                  :value="props2.row.description"
-                  @change="props2.row.description = event.target.value"
-                ></b-input>
+                <b-input v-model="props2.row.description"></b-input>
               </b-table-column>
               <b-table-column v-else label="Description">{{props2.row.description}}</b-table-column>
 
               <b-table-column v-if="modifyModeFileinfo" label="Version">
-                <b-input :value="props2.row.version"></b-input>
+                <b-input v-model="props2.row.version"></b-input>
               </b-table-column>
               <b-table-column
                 v-else
@@ -84,7 +82,7 @@
               >{{props2.row.version}}</b-table-column>
 
               <b-table-column v-if="modifyModeFileinfo" label="Remark">
-                <b-input :value="props2.row.remark"></b-input>
+                <b-input v-model="props2.row.remark"></b-input>
               </b-table-column>
               <b-table-column
                 v-else
@@ -134,10 +132,11 @@ export default {
         }
       );
     },
-    toggle(row) {
+    toggle(row, idMpflow) {
       this.$refs.table.toggleDetails(row);
+      this.nowIdMpflow = idMpflow;
     },
-    switchModify() {
+    switchModify(dat) {
       if (this.modifyModeFileinfo == false) {
         this.modifyModeFileinfo = true;
         this.modifyKeyName = "Apply";
@@ -146,10 +145,11 @@ export default {
         this.modifyModeFileinfo = false;
         this.modifyKeyName = "Modify";
         // data 갱신
+        console.log(dat);
 
         axios.post("http://10.11.11.146:9000/Fileinfo/ModifyFileinfo").then(
           response => {
-            this.history_data = response.data;
+            this.history_data.data = response.data;
             console.log(this.history_data.data);
           },
           error => {
