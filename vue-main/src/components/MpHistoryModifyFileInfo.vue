@@ -6,22 +6,29 @@
         <!-- Left side -->
         <div class="level-left">
           <div class="level-item">
-            <p class="subtitle is-5">
-              <strong>{{history_data.data.length.toString()}}</strong> Flows
-            </p>
+            <p class="subtitle is-5">Add Flow</p>
           </div>
         </div>
 
         <!-- Right side -->
         <div class="level-right">
           <p class="level-item">
-            <b-button type="is-link">Save</b-button>
+            <b-button type="is-link" tag="router-link" to="/mp-history">Back</b-button>
+          </p>
+          <p class="level-item">
+            <b-button type="is-success">Save</b-button>
           </p>
           <p class="level-item">
             <b-button type="is-black">Delete</b-button>
           </p>
         </div>
       </nav>
+      <b-field label="Flow branch" :label-position="labelPosition">
+        <b-select placeholder="Select a branch">
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+        </b-select>
+      </b-field>
     </section>
   </div>
 </template>

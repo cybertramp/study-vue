@@ -4,7 +4,7 @@ import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import MpHistory from '../components/MpHistory.vue'
-import MpHistoryAdd from '../components/MpHistoryAdd.vue'
+import MpHistoryModifyFileInfo from '../components/MpHistoryModifyFileInfo.vue'
 
 Vue.use(Router)
 
@@ -29,9 +29,9 @@ export default new Router({
             component: MpHistory
         },
         {
-            path: '/mp-history-add',
-            name: 'mp-history-add',
-            component: MpHistoryAdd
+            path: '/mp-history-modify-fileinfo',
+            name: 'mp-history-modify-fileinfo',
+            component: MpHistoryModifyFileInfo
         }
     ]
 })

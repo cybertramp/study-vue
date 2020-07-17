@@ -17,14 +17,13 @@
       </template>
     </b-navbar>
     <br />
-    <div class="container">
+    <div class="container is-fluid">
       <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "app",
   methods: {}

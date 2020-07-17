@@ -22,12 +22,6 @@
           <p class="level-item">
             <b-button type="is-info">Search</b-button>
           </p>
-          <p class="level-item">
-            <b-button type="is-link" href="/mp-hitory-add">Add</b-button>
-          </p>
-          <p class="level-item">
-            <b-button type="is-black">Delete</b-button>
-          </p>
         </div>
       </nav>
     </section>
@@ -54,16 +48,54 @@
           </b-table-column>
         </template>
         <template slot="detail" slot-scope="props">
-          <p>
-            <strong>{{props.row.fileinfoList.length.toString()}}</strong> Files
-          </p>
+          <nav class="level" style="margin: 0px">
+            <!-- Left side -->
+            <div class="level-left">
+              <div class="level-item">
+                <strong>{{props.row.fileinfoList.length.toString()}}</strong> Files
+              </div>
+            </div>
+
+            <!-- Right side -->
+            <div class="level-right">
+              <p class="level-item">
+                <b-button type="is-fail" @click="switchModify()">{{modifyKeyName}}</b-button>
+              </p>
+            </div>
+          </nav>
           <b-table :data="props.row.fileinfoList">
             <template slot-scope="props2">
+              <b-table-column v-if="modifyModeFileinfo" label="Description">
+                <b-input
+                  :value="props2.row.description"
+                  @change="props2.row.description = event.target.value"
+                ></b-input>
+              </b-table-column>
+              <b-table-column v-else label="Description">{{props2.row.description}}</b-table-column>
+
+              <b-table-column v-if="modifyModeFileinfo" label="Version">
+                <b-input :value="props2.row.version"></b-input>
+              </b-table-column>
+              <b-table-column
+                v-else
+                field="version"
+                label="Version"
+                v-model="inputData.version"
+              >{{props2.row.version}}</b-table-column>
+
+              <b-table-column v-if="modifyModeFileinfo" label="Remark">
+                <b-input :value="props2.row.remark"></b-input>
+              </b-table-column>
+              <b-table-column
+                v-else
+                field="remark"
+                label="Remark"
+                v-model="inputData.remark"
+              >{{props2.row.remark}}</b-table-column>
+
               <b-table-column field="filePath" label="Path">{{props2.row.filePath}}</b-table-column>
-              <b-table-column field="version" label="Version">{{props2.row.version}}</b-table-column>
+
               <b-table-column field="sha1" label="Hash">{{props2.row.sha1}}</b-table-column>
-              <b-table-column field="description" label="Description">{{props2.row.description}}</b-table-column>
-              <b-table-column field="remark" label="Remark">{{props2.row.remark}}</b-table-column>
             </template>
           </b-table>
         </template>
@@ -78,7 +110,16 @@ export default {
   name: "app",
   data: function() {
     return {
-      history_data: []
+      history_data: [],
+      modifyModeFileinfo: false,
+      modifyKeyName: "Modify",
+      inputData: {
+        description: "",
+        version: "",
+        remark: "",
+        filePath: "",
+        sha1: ""
+      }
     };
   },
   methods: {
@@ -95,6 +136,27 @@ export default {
     },
     toggle(row) {
       this.$refs.table.toggleDetails(row);
+    },
+    switchModify() {
+      if (this.modifyModeFileinfo == false) {
+        this.modifyModeFileinfo = true;
+        this.modifyKeyName = "Apply";
+      } else {
+        // send
+        this.modifyModeFileinfo = false;
+        this.modifyKeyName = "Modify";
+        // data 갱신
+
+        axios.post("http://10.11.11.146:9000/Fileinfo/ModifyFileinfo").then(
+          response => {
+            this.history_data = response.data;
+            console.log(this.history_data.data);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
     }
   },
   mounted: function() {
