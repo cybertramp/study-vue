@@ -1,13 +1,16 @@
 <template>
   <div>
-    <!-- mini menu -->
     <section>
+      <!-- Table navbar -->
       <nav class="level">
         <!-- Left side -->
         <div class="level-left">
           <div class="level-item">
+            <p class="title is-3">MP Flows</p>
+          </div>
+          <div class="level-item">
             <p class="subtitle is-5">
-              <strong>{{history_data.data.length.toString()}}</strong> Flows
+              <strong>{{Object.keys(history_data.data).length.toString()}}</strong> Flows
             </p>
           </div>
         </div>
@@ -15,18 +18,11 @@
         <!-- Right side -->
         <div class="level-right">
           <p class="level-item">
-            <b-field>
-              <b-input placeholder="Search..." type="search"></b-input>
-            </b-field>
-          </p>
-          <p class="level-item">
-            <b-button type="is-info">Search</b-button>
+            <b-button type="is-info">Test</b-button>
           </p>
         </div>
       </nav>
-    </section>
-    <!-- table -->
-    <section>
+      <!-- table -->
       <b-table
         v-bind:data="history_data.data"
         ref="table"
@@ -38,13 +34,23 @@
         :show-detail-icon="false"
       >
         <template slot-scope="props">
-          <b-table-column field="mpName" label="Name">
-            <a @click="toggle(props.row,props.row.id)">{{ props.row.mpName }}</a>
-          </b-table-column>
-          <b-table-column field="cmSite" label="Site">{{props.row.cmSite}}</b-table-column>
+          <b-table-column field="mpName" label="Name" searchable>{{ props.row.mpName }}</b-table-column>
+          <b-table-column field="cmSite" label="Site" searchable>{{props.row.cmSite}}</b-table-column>
           <b-table-column field="nandType" label="Type">{{props.row.nandType}}</b-table-column>
           <b-table-column field="date" label="Date">
             <span class="tag is-success">{{ new Date(props.row.date).toLocaleDateString() }}</span>
+          </b-table-column>
+          <b-table-column>
+            <div class="buttons">
+              <b-button type="is-danger" size="is-small" outlined rounded>Flow Sequence</b-button>
+              <b-button
+                type="is-primary"
+                size="is-small"
+                outlined
+                rounded
+                @click="toggle(props.row,props.row.id)"
+              >File info</b-button>
+            </div>
           </b-table-column>
         </template>
         <template slot="detail" slot-scope="props">
@@ -52,14 +58,20 @@
             <!-- Left side -->
             <div class="level-left">
               <div class="level-item">
-                <strong>{{props.row.fileinfoList.length.toString()}}</strong> Files
+                <strong>{{Object.keys(props.row.fileinfoList).length.toString()}}</strong> Files
               </div>
             </div>
 
             <!-- Right side -->
             <div class="level-right">
               <p class="level-item">
-                <b-button type="is-fail" @click="switchModify(props2)">{{modifyKeyName}}</b-button>
+                <b-button
+                  type="is-fail"
+                  @click="switchModify(history_data.data.indexOf(props.row))"
+                >{{modifyKeyName}}</b-button>
+              </p>
+              <p class="level-item">
+                <b-button type="is-black" @click="toggle(props.row,props.row.id)">Close</b-button>
               </p>
             </div>
           </nav>
@@ -117,7 +129,9 @@ export default {
         remark: "",
         filePath: "",
         sha1: ""
-      }
+      },
+      now_index: 9999,
+      send_data: { data: "" }
     };
   },
   methods: {
@@ -125,7 +139,6 @@ export default {
       axios.get("http://10.11.11.146:9000/MPFlow/GetAllWithFilinfo").then(
         response => {
           this.history_data = response.data;
-          console.log(this.history_data.data);
         },
         error => {
           console.log(error);
@@ -136,7 +149,7 @@ export default {
       this.$refs.table.toggleDetails(row);
       this.nowIdMpflow = idMpflow;
     },
-    switchModify(dat) {
+    switchModify(row) {
       if (this.modifyModeFileinfo == false) {
         this.modifyModeFileinfo = true;
         this.modifyKeyName = "Apply";
@@ -144,18 +157,23 @@ export default {
         // send
         this.modifyModeFileinfo = false;
         this.modifyKeyName = "Modify";
-        // data 갱신
-        console.log(dat);
 
-        axios.post("http://10.11.11.146:9000/Fileinfo/ModifyFileinfo").then(
-          response => {
-            this.history_data.data = response.data;
-            console.log(this.history_data.data);
-          },
-          error => {
-            console.log(error);
-          }
-        );
+        // data 갱신
+        this.send_data["data"] = this.history_data.data[row].fileinfoList;
+
+        axios
+          .post(
+            "http://10.11.11.146:9000/Fileinfo/ModifyFileinfoList",
+            this.send_data
+          )
+          .then(
+            response => {
+              console.log("normal sended: " + response);
+            },
+            error => {
+              console.log(error);
+            }
+          );
       }
     }
   },

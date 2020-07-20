@@ -5,28 +5,19 @@
         <div class="tile">
           <div class="tile is-parent is-vertical">
             <article class="tile is-child notification is-warning">
-              <p class="title">현재 CM 수</p>
+              <p class="title">CMs</p>
               <p class="subtitle">2</p>
             </article>
             <article class="tile is-child notification is-success">
-              <p class="title">현재 레포의 브런치 수</p>
-              <p class="subtitle">123</p>
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
-              <p class="title">Middle tile</p>
-              <p class="subtitle">With an image</p>
-              <figure class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/640x480.png" />
-              </figure>
+              <p class="title">branches</p>
+              <p class="subtitle">5</p>
             </article>
           </div>
         </div>
         <div class="tile is-parent">
           <article class="tile is-child notification is-danger">
-            <p class="title">Wide tile</p>
-            <p class="subtitle">Aligned with the right tile</p>
+            <p class="title">Total size</p>
+            <p class="subtitle">32Mbyte</p>
             <div class="content">
               <!-- Content -->
             </div>
@@ -34,10 +25,10 @@
         </div>
       </div>
       <div class="tile is-parent">
-        <article class="tile is-child notification is-success">
+        <article class="tile is-child notification is-white">
           <div class="content">
-            <p class="title">Tall tile</p>
-            <p class="subtitle">With even more content</p>
+            <p class="title">Server Status</p>
+            <p class="subtitle">Online</p>
             <div class="content">
               <!-- Content -->
             </div>
