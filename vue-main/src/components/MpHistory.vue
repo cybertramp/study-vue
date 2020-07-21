@@ -30,7 +30,7 @@
         paginated
         per-page="15"
         detailed
-        detail-key="id"
+        detail-key="_id"
         :show-detail-icon="false"
       >
         <template slot-scope="props">
@@ -48,8 +48,15 @@
                 size="is-small"
                 outlined
                 rounded
-                @click="toggle(props.row,props.row.id)"
+                @click="toggle(props.row,props.row._id)"
               >File info</b-button>
+              <b-button
+                type="is-success"
+                size="is-small"
+                outlined
+                rounded
+                @click="downloadFile('http://10.11.11.146:3000/fadu/mp_cm_data/archive/'+props.row.cmSite+'/'+props.row.nandType+'/'+props.row.mpName.slice(0,8)+'.zip')"
+              >Download</b-button>
             </div>
           </b-table-column>
         </template>
@@ -71,7 +78,7 @@
                 >{{modifyKeyName}}</b-button>
               </p>
               <p class="level-item">
-                <b-button type="is-black" @click="toggle(props.row,props.row.id)">Close</b-button>
+                <b-button type="is-black" @click="toggle(props.row,props.row._id)">Close</b-button>
               </p>
             </div>
           </nav>
@@ -138,6 +145,7 @@ export default {
     getAllMpflow: function() {
       axios.get("http://10.11.11.146:9000/MPFlow/GetAllWithFilinfo").then(
         response => {
+          console.log(response.data);
           this.history_data = response.data;
         },
         error => {
@@ -146,6 +154,8 @@ export default {
       );
     },
     toggle(row, idMpflow) {
+      console.log(row);
+      console.log(idMpflow);
       this.$refs.table.toggleDetails(row);
       this.nowIdMpflow = idMpflow;
     },
@@ -175,6 +185,12 @@ export default {
             }
           );
       }
+    },
+    downloadFile(url) {
+      // file download
+      var link = document.createElement("a");
+      link.href = url;
+      link.click();
     }
   },
   mounted: function() {
