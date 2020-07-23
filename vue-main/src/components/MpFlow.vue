@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <section>
       <!-- Table navbar -->
       <nav class="level">
         <!-- Left side -->
         <div class="level-left">
           <div class="level-item">
-            <p class="title is-3">MP Flows</p>
+            <p class="title is-1">MP Flows</p>
           </div>
           <div class="level-item">
             <p class="subtitle is-5">
@@ -18,7 +18,7 @@
         <!-- Right side -->
         <div class="level-right">
           <p class="level-item">
-            <b-button type="is-info">Test</b-button>
+            <b-button type="is-info" tag="router-link" to="/mpflow-create">New</b-button>
           </p>
         </div>
       </nav>
@@ -30,7 +30,7 @@
         paginated
         per-page="15"
         detailed
-        detail-key="_id"
+        detail-key="id"
         :show-detail-icon="false"
       >
         <template slot-scope="props">
@@ -42,7 +42,7 @@
           </b-table-column>
           <b-table-column>
             <div class="buttons">
-              <b-button type="is-danger" size="is-small" outlined rounded>Flow Sequence</b-button>
+              <b-button type="is-danger" size="is-small" outlined rounded>Details</b-button>
               <b-button
                 type="is-primary"
                 size="is-small"

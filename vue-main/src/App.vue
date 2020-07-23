@@ -9,7 +9,7 @@
       </template>
       <template slot="end">
         <b-navbar-dropdown label="Menu" hoverable boxed>
-          <b-navbar-item href="/mp-history">MP Flow</b-navbar-item>
+          <b-navbar-item href="/mpflow">MP Flow</b-navbar-item>
           <b-navbar-item href="http://10.11.11.146:3000/fadu/mp_cm_data">File Repository</b-navbar-item>
         </b-navbar-dropdown>
         <b-navbar-item href="/logout">Logout</b-navbar-item>

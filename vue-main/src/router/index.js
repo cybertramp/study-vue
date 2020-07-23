@@ -3,10 +3,10 @@ import Router from 'vue-router'
 import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
-import MpHistory from '../components/MpHistory.vue'
+import MpFlow from '../components/MpFlow.vue'
 import MpHistoryModifyFileInfo from '../components/MpHistoryModifyFileInfo.vue'
 import MpFlowSequence from '../components/MpFlowSequence.vue'
-import MpFlowSequenceCreate from '../components/MpFlowSequenceCreate.vue'
+import MpFlowCreate from '../components/MpFlowCreate.vue'
 import MpFlowSequenceModify from '../components/MpFlowSequenceModify.vue'
 import MpFlowSequenceDelete from '../components/MpFlowSequenceDelete.vue'
 
@@ -28,9 +28,9 @@ export default new Router({
             component: Register
         },
         {
-            path: '/mp-history',
-            name: 'mp-history',
-            component: MpHistory
+            path: '/mpflow',
+            name: 'mpflow',
+            component: MpFlow
         },
         {
             path: '/mp-history-modify-fileinfo',
@@ -43,9 +43,9 @@ export default new Router({
             component: MpFlowSequence
         },
         {
-            path: '/mp-flow-sequence-create',
-            name: 'mp-flow-sequence-create',
-            component: MpFlowSequenceCreate
+            path: '/mpflow-create',
+            name: 'mpflow-create',
+            component: MpFlowCreate
         }
         ,
         {
