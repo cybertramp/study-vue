@@ -5,7 +5,7 @@
       <nav class="level">
         <div class="level-left">
           <div class="level-item">
-            <p class="title is-1">Create MP Flow</p>
+            <p class="title is-1">Modify MP Flow</p>
           </div>
         </div>
       </nav>
@@ -29,33 +29,12 @@
       </nav>
       <!-- content -->
       <div class="columns">
-        <div class="column is-3">
-          <b-field label="MP Flow name">
-            <b-input placeholder="unigen MP v1" v-model="flow_data.mpName"></b-input>
-          </b-field>
-        </div>
         <div class="column is-2" v-if="isLoaded">
           <b-field label="File Data">
-            <b-select placeholder="Select branch" v-model="selcetedBranch" @input="selectedItem()">
-              <option value selected disabled>Choose</option>
-              <option v-for="(item,idx) in branches" :key="idx">{{ item }}</option>
-            </b-select>
+            <p>{{flow_data.branchName}}</p>
           </b-field>
         </div>
-        <div class="column is-2">
-          <b-field label="CM Site">
-            <b-input placeholder="exicon / unigen" v-model="flow_data.cmSite"></b-input>
-          </b-field>
-        </div>
-        <div class="column is-2">
-          <b-field label="Nand Type">
-            <b-input placeholder="BiCS3 / B27A" v-model="flow_data.nandType"></b-input>
-          </b-field>
-        </div>
-        <div class="column"></div>
-      </div>
-      <div class="columns">
-        <div class="column is-one-quarter">
+        <div class="column is-3">
           <b-field label="Updated date">
             <b-datetimepicker v-model="flow_data.date" placeholder="Click to select...">
               <template slot="left">
@@ -71,6 +50,25 @@
                 </button>
               </template>
             </b-datetimepicker>
+          </b-field>
+        </div>
+
+        <div class="column is-2">
+          <b-field label="CM Site">
+            <b-input placeholder="exicon / unigen" v-model="flow_data.cmSite"></b-input>
+          </b-field>
+        </div>
+        <div class="column is-2">
+          <b-field label="Nand Type">
+            <b-input placeholder="BiCS3 / B27A" v-model="flow_data.nandType"></b-input>
+          </b-field>
+        </div>
+        <div class="column"></div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <b-field label="MP Flow name">
+            <b-input placeholder="unigen MP v1" v-model="flow_data.mpName"></b-input>
           </b-field>
         </div>
         <div class="column is-three-quarters">

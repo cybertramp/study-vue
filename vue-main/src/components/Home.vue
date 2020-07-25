@@ -42,9 +42,22 @@
 
 <script>
 //import axios from "axios";
+//import ping from "ping";
 export default {
   name: "app",
-  methods: {},
+  methods: {
+    pingDestination() {
+      /*
+      ping("https://google.com/")
+        .then(function(delta) {
+          console.log("Ping time was " + String(delta) + " ms");
+        })
+        .catch(function(err) {
+          console.error("Could not ping remote URL", err);
+        });
+        */
+    }
+  },
   mounted: {}
 };
 </script>

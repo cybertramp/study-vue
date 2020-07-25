@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "sortablejs": "^1.10.2"
+    "sortablejs": "^1.10.2",
+    "web-pingjs": "^1.0.1"
   }
 }
