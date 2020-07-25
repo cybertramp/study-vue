@@ -213,7 +213,7 @@ import { EventBus } from "../EventBus";
 const createSortable = (el, options, vnode) => {
   return Sortable.create(el, {
     ...options,
-    onEnd: function(evt) {
+    onEnd: function (evt) {
       const data = vnode.context.$data.currentData.testSteps;
       const item = data[evt.oldIndex];
       if (evt.newIndex > evt.oldIndex) {
@@ -226,7 +226,7 @@ const createSortable = (el, options, vnode) => {
         }
       }
       data[evt.newIndex] = item;
-    }
+    },
   });
 };
 
@@ -252,17 +252,17 @@ const sortable = {
   unbind(el) {
     const table = el.querySelector("table");
     table._sortable.destroy();
-  }
+  },
 };
 ///////////////////////////////////
 
 export default {
   name: "app",
   directives: { sortable },
-  data: function() {
+  data: function () {
     return {
       sortableOptions: {
-        chosenClass: "is-selected"
+        chosenClass: "is-selected",
       },
       mpCurrentData: [],
       currentData: {
@@ -273,7 +273,7 @@ export default {
         cmSite: "",
         date: new Date(),
         description: "",
-        testSteps: []
+        testSteps: [],
       },
       currentStepData: {
         category1: "",
@@ -282,21 +282,21 @@ export default {
         cmd: "",
         fileinfoShaList: [""],
         tag: "",
-        description: ""
+        description: "",
       },
 
-      selected: ""
+      selected: "",
     };
   },
   methods: {
-    getAllMpflow: function() {
+    getAllMpflow: function () {
       axios.get("http://10.11.11.146:9000/MPFlow/GetAll").then(
-        response => {
+        (response) => {
           this.mpCurrentData = response.data;
           this.selected = this.mpCurrentData.data[1];
           console.log(this.mpCurrentData.data);
         },
-        error => {
+        (error) => {
           console.log(error);
         }
       );
@@ -304,14 +304,14 @@ export default {
     toggle(nowFlow) {
       // get Teststeps
       // 수정 해야함 id를 못받고 있음
-
+      console.log(this.currentData.id);
       var tmpTest =
-        "http://10.11.11.146:9000/MPFlow/GetTestSteps/" + this.currentData.id;
+        "http://10.11.11.146:9000/MPFlow/GetMPFlow/" + this.currentData.id;
       axios.get(tmpTest).then(
-        response => {
+        (response) => {
           console.log(response.data);
         },
-        error => {
+        (error) => {
           console.log(error);
         }
       );
@@ -328,12 +328,12 @@ export default {
         nandType: this.currentData.nandType,
         cmSite: this.currentData.cmSite,
         date: this.currentData.date,
-        description: this.currentData.description
+        description: this.currentData.description,
       };
 
       var wrapTestSteps = {
         mpFlowId: this.currentData.id,
-        data: this.currentData.testSteps
+        data: this.currentData.testSteps,
       };
       console.log("===");
       console.log(this.currentData.testSteps);
@@ -342,7 +342,7 @@ export default {
       axios
         .post("http://10.11.11.146:9000/MPFlow/ModifyMPFlow", wrapMpFlow)
         .then(
-          response => {
+          (response) => {
             console.log("normal sended: " + response);
             console.log("======");
             // 2nd data transfer - Mpflow Steps
@@ -352,15 +352,15 @@ export default {
                 wrapTestSteps
               )
               .then(
-                response => {
+                (response) => {
                   console.log("normal sended: " + response);
                 },
-                error => {
+                (error) => {
                   console.log(error);
                 }
               );
           },
-          error => {
+          (error) => {
             console.log(error);
           }
         );
@@ -394,7 +394,7 @@ export default {
           
       }
     },*/
-    addStep: function() {
+    addStep: function () {
       if (
         this.currentStepData.category1 != "" &&
         this.currentStepData.category2 != "" &&
@@ -408,11 +408,11 @@ export default {
           cmd: tmp.cmd.split(","),
           fileinfoShaList: tmp.fileinfoShaList,
           tag: tmp.tag,
-          description: tmp.description
+          description: tmp.description,
         });
       }
     },
-    removeStep: function() {
+    removeStep: function () {
       this.currentData.testSteps.pop();
     },
 
@@ -451,10 +451,10 @@ export default {
     emitCurrentFlowId(_id) {
       console.log("emit!");
       EventBus.$emit("push-msg", _id);
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.getAllMpflow();
-  }
+  },
 };
 </script>
