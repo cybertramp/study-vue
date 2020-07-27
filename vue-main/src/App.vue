@@ -1,5 +1,6 @@
 <template>
   <div>
+    <title>FADU PB portal</title>
     <!-- menu bar-->
     <b-navbar type="is-white" fixed-top shadow>
       <template slot="start">
@@ -25,7 +26,7 @@
 <script>
 export default {
   name: "app",
-  methods: {}
+  methods: {},
 };
 </script>
 

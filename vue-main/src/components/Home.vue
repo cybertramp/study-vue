@@ -1,39 +1,16 @@
 <template>
   <div>
-    <div class="tile is-ancestor">
-      <div class="tile is-vertical is-8">
-        <div class="tile">
-          <div class="tile is-parent is-vertical">
-            <article class="tile is-child notification is-warning">
-              <p class="title">CMs</p>
-              <p class="subtitle">2</p>
-            </article>
-            <article class="tile is-child notification is-success">
-              <p class="title">branches</p>
-              <p class="subtitle">5</p>
-            </article>
-          </div>
-        </div>
-        <div class="tile is-parent">
-          <article class="tile is-child notification is-danger">
-            <p class="title">Total size</p>
-            <p class="subtitle">32Mbyte</p>
-            <div class="content">
-              <!-- Content -->
-            </div>
-          </article>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child notification is-white">
-          <div class="content">
-            <p class="title">Server Status</p>
-            <p class="subtitle">Online</p>
-            <div class="content">
-              <!-- Content -->
-            </div>
-          </div>
-        </article>
+    <div class="tab-pane is-active">
+      <div class="content">
+        <h1>PB Portal</h1>
+        <p>FADU 양산용 데이터를 관리하기 위한 포털입니다.</p>
+        <h3>목적</h3>
+        <p>여러 버전의 데이터 관리를 좀 더 편리하고 단순하게 관리하기 위함에 목적이 있습니다.</p>
+        <ul>
+          <li>Total size: {{totalSize}} MiB</li>
+          <li>CM branches: {{cmBranches}}</li>
+          <li>Total files: {{totalFiles}}</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -45,19 +22,14 @@
 //import ping from "ping";
 export default {
   name: "app",
-  methods: {
-    pingDestination() {
-      /*
-      ping("https://google.com/")
-        .then(function(delta) {
-          console.log("Ping time was " + String(delta) + " ms");
-        })
-        .catch(function(err) {
-          console.error("Could not ping remote URL", err);
-        });
-        */
-    }
+  data: function () {
+    return {
+      totalSize: 0,
+      cmBranches: 0,
+      totalFiles: 0,
+    };
   },
-  mounted: {}
+  methods: {},
+  mounted: function () {},
 };
 </script>

@@ -12,6 +12,9 @@ Vue.use(Router)
 
 export default new Router({
     mode: 'history',
+    meta: {
+        title: "FADU PB Portal"
+    },
     routes: [
         {
             path: '/',

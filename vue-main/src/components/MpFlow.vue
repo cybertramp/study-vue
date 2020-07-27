@@ -29,6 +29,9 @@
       :show-detail-icon="false"
     >
       <template slot-scope="props">
+        <b-table-column field="date" label="Date" is-small>
+          <span>{{ new Date(props.row.date).toLocaleDateString() }}</span>
+        </b-table-column>
         <b-table-column field="mpName" label="Flow Name" is-small>
           <router-link
             to="/mpflow-detail"
@@ -36,11 +39,12 @@
           >{{ props.row.mpName }}</router-link>
         </b-table-column>
         <b-table-column field="branchName" label="Branch Data" is-small>{{ props.row.branchName }}</b-table-column>
-        <b-table-column field="nandType" label="NandType" is-small>{{ props.row.nandType }}</b-table-column>
-        <b-table-column field="cmSite" label="Site" is-small>{{ props.row.cmSite }}</b-table-column>
-        <b-table-column field="date" label="Date" is-small>
-          <span class="tag is-success">{{ new Date(props.row.date).toLocaleDateString() }}</span>
+        <b-table-column field="nandType" label="NandType" is-small>
+          <span v-if="props.row.nandType == 'b27a'" class="tag is-light">{{ props.row.nandType }}</span>
+          <span v-if="props.row.nandType == 'bics3'" class="tag is-black">{{ props.row.nandType }}</span>
         </b-table-column>
+        <b-table-column field="cmSite" label="Site" is-small>{{ props.row.cmSite }}</b-table-column>
+
         <b-table-column>
           <div class="buttons">
             <!-- table buttons -->
@@ -71,7 +75,7 @@
           <!-- Right side -->
           <div class="level-right">
             <p class="level-item">
-              <b-button type="is-link" @click="save()">Save</b-button>
+              <b-button type="is-link" @click="save(props.row)">Save</b-button>
             </p>
             <!-- future
               <p class="level-item">
@@ -105,10 +109,10 @@
           <!-- Right side -->
           <div class="level-right">
             <p class="level-item">
-              <b-button type="is-link" @click="addStep()">Add step</b-button>
+              <b-button type="is-link" @click="addStep()">Add Step</b-button>
             </p>
             <p class="level-item">
-              <b-button type="is-success" @click="removeStep()">Clear steps</b-button>
+              <b-button type="is-success" @click="removeLastStep()">Remove Last Step</b-button>
             </p>
             <!-- future
               <p class="level-item">
@@ -290,7 +294,7 @@ export default {
   },
   methods: {
     getAllMpflow: function () {
-      axios.get("http://10.11.11.146:9000/MPFlow/GetAll").then(
+      axios.get("http://10.11.11.146:9000/MPFlow/GetAllWithFilinfo").then(
         (response) => {
           this.mpCurrentData = response.data;
           this.selected = this.mpCurrentData.data[1];
@@ -301,26 +305,8 @@ export default {
         }
       );
     },
-    toggle(nowFlow) {
-      // get Teststeps
-      // 수정 해야함 id를 못받고 있음
-      console.log(this.currentData.id);
-      var tmpTest =
-        "http://10.11.11.146:9000/MPFlow/GetMPFlow/" + this.currentData.id;
-      axios.get(tmpTest).then(
-        (response) => {
-          console.log(response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      this.$refs.mainTable.toggleDetails(nowFlow);
-      this.currentData = nowFlow;
-      console.log(this.currentData);
-      this.currentData.testSteps = [];
-    },
-    save() {
+
+    save(nowFlow) {
       // data transfer - Mpflow
       var wrapMpFlow = {
         id: this.currentData.id,
@@ -364,36 +350,8 @@ export default {
             console.log(error);
           }
         );
+      this.$refs.mainTable.toggleDetails(nowFlow);
     },
-    /*
-    switchModify(row) {
-      if (this.modifyModeFileinfo == false) {
-        this.modifyModeFileinfo = true;
-        this.modifyKeyName = "Apply";
-      } else {
-        // send
-        this.modifyModeFileinfo = false;
-        this.modifyKeyName = "Modify";
-        
-        // data 갱신
-        this.send_data["data"] = this.mpCurrentData.data[row].fileinfoList;
-        
-        axios
-          .post(
-            "http://10.11.11.146:9000/Fileinfo/ModifyFileinfoList",
-            this.send_data
-          )
-          .then(
-            response => {
-              console.log("normal sended: " + response);
-            },
-            error => {
-              console.log(error);
-            }
-          );
-          
-      }
-    },*/
     addStep: function () {
       if (
         this.currentStepData.category1 != "" &&
@@ -412,7 +370,7 @@ export default {
         });
       }
     },
-    removeStep: function () {
+    removeLastStep() {
       this.currentData.testSteps.pop();
     },
 
@@ -421,6 +379,14 @@ export default {
       var link = document.createElement("a");
       link.href = url;
       link.click();
+    },
+    toggle(nowFlow) {
+      // get Teststeps
+
+      this.$refs.mainTable.toggleDetails(nowFlow);
+      this.currentData = nowFlow;
+      console.log(this.currentData);
+      this.currentData.testSteps = [];
     },
 
     // table dragable function

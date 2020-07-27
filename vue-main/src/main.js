@@ -12,6 +12,7 @@ Vue.use(VueRouter)
 Vue.use(Buefy)
 
 new Vue({
+  defaultIconPack: 'fas',
   el: '#app',
   router,
   components: {
