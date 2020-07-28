@@ -13,24 +13,20 @@
         <!-- Right side -->
         <div class="level-right">
           <p class="level-item"></p>
-          <p class="subtitle is-5">
-            <strong>{{Object.keys(mpCurrentData.data).length.toString()}}</strong> Flows
-          </p>
+          <p class="subtitle is-5"></p>
         </div>
       </nav>
     </section>
     <!-- table -->
-
-    <b-table
-      v-bind:data="mpCurrentData.data"
-      ref="mainTable"
-      detailed
-      detail-key="id"
-      :show-detail-icon="false"
-    >
+    <b-table v-bind:data="mpCurrentData.data" ref="mainTable">
       <template slot-scope="props">
         <b-table-column field="date" label="Date" is-small>
           <span>{{ new Date(props.row.date).toLocaleDateString() }}</span>
+        </b-table-column>
+        <b-table-column field="cmSite" label="Site" is-small>{{ props.row.cmSite }}</b-table-column>
+        <b-table-column field="nandType" label="NandType" is-small>
+          <span v-if="props.row.nandType == 'b27a'" class="tag is-light">{{ props.row.nandType }}</span>
+          <span v-if="props.row.nandType == 'bics3'" class="tag is-black">{{ props.row.nandType }}</span>
         </b-table-column>
         <b-table-column field="mpName" label="Flow Name" is-small>
           <router-link
@@ -38,17 +34,11 @@
             v-on:click.native="emitCurrentFlowId(props.row.id)"
           >{{ props.row.mpName }}</router-link>
         </b-table-column>
-        <b-table-column field="branchName" label="Branch Data" is-small>{{ props.row.branchName }}</b-table-column>
-        <b-table-column field="nandType" label="NandType" is-small>
-          <span v-if="props.row.nandType == 'b27a'" class="tag is-light">{{ props.row.nandType }}</span>
-          <span v-if="props.row.nandType == 'bics3'" class="tag is-black">{{ props.row.nandType }}</span>
-        </b-table-column>
-        <b-table-column field="cmSite" label="Site" is-small>{{ props.row.cmSite }}</b-table-column>
+        <b-table-column field="branchName" label="Branch Path" is-small>{{ props.row.branchName }}</b-table-column>
 
-        <b-table-column>
+        <b-table-column width="5%">
           <div class="buttons">
             <!-- table buttons -->
-            <b-button type="is-danger" size="is-small" outlined @click="toggle(props.row)">Modify</b-button>
             <b-button
               type="is-info"
               size="is-small"
@@ -58,149 +48,11 @@
           </div>
         </b-table-column>
       </template>
-      <!-- 분기점 -->
-      <template slot="detail">
-        <!-- Modify menu -->
-        <!-- Modify case -->
-        <nav class="level">
-          <!-- Left side -->
-          <div class="level-left">
-            <div class="level-item">
-              <p class="title is-3">
-                <b>Modify flow</b>
-              </p>
-            </div>
-          </div>
-
-          <!-- Right side -->
-          <div class="level-right">
-            <p class="level-item">
-              <b-button type="is-link" @click="save(props.row)">Save</b-button>
-            </p>
-            <!-- future
-              <p class="level-item">
-                <b-button type="is-black">Load previous</b-button>
-              </p>
-            -->
-          </div>
-        </nav>
-        <div class="columns">
-          <div class="column is-one-quarter">
-            <b-field label="MP Flow name">
-              <b-input v-model="currentData.mpName">{{currentData.mpName}}</b-input>
-            </b-field>
-          </div>
-          <div class="column">
-            <b-field label="Description">
-              <b-input v-model="currentData.description">{{currentData.description}}</b-input>
-            </b-field>
-          </div>
+      <template slot="footer">
+        <div class="has-text-right">
+          There are
+          <strong>{{Object.keys(mpCurrentData.data).length.toString()}}</strong> Flows.
         </div>
-        <nav class="level">
-          <!-- Left side -->
-          <div class="level-left">
-            <div class="level-item">
-              <p class="title is-4">
-                <b>Test steps</b>
-              </p>
-            </div>
-          </div>
-
-          <!-- Right side -->
-          <div class="level-right">
-            <p class="level-item">
-              <b-button type="is-link" @click="addStep()">Add Step</b-button>
-            </p>
-            <p class="level-item">
-              <b-button type="is-success" @click="removeLastStep()">Remove Last Step</b-button>
-            </p>
-            <!-- future
-              <p class="level-item">
-                <b-button type="is-black">Load previous</b-button>
-              </p>
-            -->
-          </div>
-        </nav>
-
-        <div class="columns">
-          <div class="column is-1">
-            <b-field label="Category1" label-position="inside">
-              <b-input
-                placeholder="FCT"
-                v-model="currentStepData.category1"
-              >{{currentStepData.category1}}</b-input>
-            </b-field>
-          </div>
-          <div class="column is-2">
-            <b-field label="Category2" label-position="inside">
-              <b-input
-                placeholder="Basic Check"
-                v-model="currentStepData.category2"
-              >{{currentStepData.category2}}</b-input>
-            </b-field>
-          </div>
-          <div class="column is-9">
-            <b-field label="Teststep" label-position="inside">
-              <b-input
-                placeholder="Power Cycle SSD"
-                v-model="currentStepData.step"
-              >{{currentStepData.step}}</b-input>
-            </b-field>
-          </div>
-
-          <div class="column"></div>
-        </div>
-
-        <div class="columns">
-          <div class="column">
-            <b-field label="Description" label-position="inside">
-              <b-input
-                placeholder="Commnets"
-                v-model="currentStepData.description"
-              >{{currentStepData.description}}</b-input>
-            </b-field>
-            <b-field label="Tag" label-position="inside">
-              <b-input
-                placeholder="add/remove/notuse"
-                v-model="currentStepData.tag"
-              >{{currentStepData.tag}}</b-input>
-            </b-field>
-          </div>
-          <div class="column">
-            <b-field label="Command" label-position="inside">
-              <b-input
-                placeholder="JBOF telnet"
-                v-model="currentStepData.cmd"
-                type="textarea"
-              >{{currentStepData.cmd}}</b-input>
-            </b-field>
-          </div>
-        </div>
-
-        <b-table
-          v-bind:data="currentData.testSteps"
-          ref="table"
-          pagination-size="is-small"
-          v-sortable="sortableOptions"
-          draggable
-          @dragstart="dragstart"
-          @drop="drop"
-          @dragover="dragover"
-          @dragleave="dragleave"
-        >
-          <template slot-scope="props_sub">
-            <b-table-column
-              width="10%"
-              field="category1"
-              label="TestCase"
-            >{{ props_sub.row.category1 }}</b-table-column>
-            <b-table-column width="20%" field="category2" label="Test">{{ props_sub.row.category2 }}</b-table-column>
-            <b-table-column width="40%" field="step" label="TestStep">{{ props_sub.row.step }}</b-table-column>
-            <b-table-column width="10%" field="cmd" label="Command">{{ props_sub.row.cmd }}</b-table-column>
-            <b-table-column width="10%" field="tag" label="Tag">{{ props_sub.row.tag }}</b-table-column>
-          </template>
-        </b-table>
-        <!------------------->
       </template>
     </b-table>
   </div>
@@ -208,61 +60,11 @@
 
 <script>
 import axios from "axios";
-import { Sortable } from "sortablejs";
+
 import { EventBus } from "../EventBus";
-
-///////////////////////////////////
-// for dragable table
-///////////////////////////////////
-const createSortable = (el, options, vnode) => {
-  return Sortable.create(el, {
-    ...options,
-    onEnd: function (evt) {
-      const data = vnode.context.$data.currentData.testSteps;
-      const item = data[evt.oldIndex];
-      if (evt.newIndex > evt.oldIndex) {
-        for (let i = evt.oldIndex; i < evt.newIndex; i++) {
-          data[i] = data[i + 1];
-        }
-      } else {
-        for (let i = evt.oldIndex; i > evt.newIndex; i--) {
-          data[i] = data[i - 1];
-        }
-      }
-      data[evt.newIndex] = item;
-    },
-  });
-};
-
-const sortable = {
-  name: "sortable",
-  bind(el, binding, vnode) {
-    const table = el.querySelector("table");
-    table._sortable = createSortable(
-      table.querySelector("tbody"),
-      binding.value,
-      vnode
-    );
-  },
-  update(el, binding, vnode) {
-    const table = el.querySelector("table");
-    table._sortable.destroy();
-    table._sortable = createSortable(
-      table.querySelector("tbody"),
-      binding.value,
-      vnode
-    );
-  },
-  unbind(el) {
-    const table = el.querySelector("table");
-    table._sortable.destroy();
-  },
-};
-///////////////////////////////////
 
 export default {
   name: "app",
-  directives: { sortable },
   data: function () {
     return {
       sortableOptions: {
@@ -380,42 +182,9 @@ export default {
       link.href = url;
       link.click();
     },
-    toggle(nowFlow) {
-      // get Teststeps
 
-      this.$refs.mainTable.toggleDetails(nowFlow);
-      this.currentData = nowFlow;
-      console.log(this.currentData);
-      this.currentData.testSteps = [];
-    },
-
-    // table dragable function
-    dragstart(payload) {
-      this.draggingRow = payload.row;
-      this.draggingRowIndex = payload.index;
-      payload.event.dataTransfer.effectAllowed = "copy";
-    },
-    dragover(payload) {
-      payload.event.dataTransfer.dropEffect = "copy";
-      payload.event.target.closest("tr").classList.add("is-selected");
-      payload.event.preventDefault();
-    },
-    dragleave(payload) {
-      payload.event.target.closest("tr").classList.remove("is-selected");
-      payload.event.preventDefault();
-    },
-    drop(payload) {
-      payload.event.target.closest("tr").classList.remove("is-selected");
-      const droppedOnRowIndex = payload.index;
-      let tmp = this.currentData.testSteps[droppedOnRowIndex];
-      this.currentData.testSteps[
-        droppedOnRowIndex
-      ] = this.currentData.testSteps[this.draggingRowIndex];
-      this.currentData.testSteps[this.draggingRowIndex] = tmp;
-      console.log(this.currentData.testSteps);
-    },
     emitCurrentFlowId(_id) {
-      console.log("emit!");
+      console.log("Message transmission");
       EventBus.$emit("push-msg", _id);
     },
   },

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <title>FADU PB portal</title>
-    <!-- menu bar-->
     <b-navbar type="is-white" fixed-top shadow>
       <template slot="start">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
@@ -17,6 +15,9 @@
       </template>
     </b-navbar>
     <br />
+    <title>FADU PB portal</title>
+    <!-- menu bar-->
+
     <div class="container is-fluid">
       <router-view />
     </div>
