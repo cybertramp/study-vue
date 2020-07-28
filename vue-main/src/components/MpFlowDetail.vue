@@ -109,7 +109,7 @@
               </div>
             </nav>
             <br />
-            <b-table v-bind:data="testSteps" checkable>
+            <b-table v-bind:data="testSteps">
               <template slot-scope="props">
                 <b-table-column
                   field="category1"
